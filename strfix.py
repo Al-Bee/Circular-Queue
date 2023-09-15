@@ -34,17 +34,31 @@ class CircularQueue:
         return f"{str(self.items)}, front:{self.front}, back:{self.back}, count:{self.count}"
     
     def __str__(self):
-        for i in range(self.count):
-            print(self.items[self.back + i])
+        if self.count == 0:
+            return "-> || ->"
+        else:
+            tmp = [str(self.items[(self.front + i) % self.capacity]) for i in range(self.count)]
+            return f"-> |{', '.join(tmp[::-1])}| ->"
+        
 try:
-    q1 = CircularQueue(3)
+    q1 = CircularQueue(4)
     q1.enqueue("A")
     print(q1)
     q1.enqueue("B")
+    print(q1)
+    print("Dequeued item: ", q1.dequeue())
+    print(q1)
+    print("Dequeued item: ", q1.dequeue())
     print(q1)
     q1.enqueue("C")
     print(q1)
     q1.enqueue("D")
     print(q1)
+    q1.enqueue("E")
+    print(q1)
+    q1.enqueue("F")
+    print(q1)
+    print("Full?", q1.is_full())
+    print("Empty?", q1.is_empty())
 except IndexError as err:
     print(err)
