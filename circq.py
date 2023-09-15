@@ -16,7 +16,7 @@ class CircularQueue:
     def enqueue(self, item):
         if not self.is_full():
             self.back = (self.back + 1) % self.capacity
-            self.items.insert(self.back, item)
+            self.items[self.back] = item
             self.count += 1
         else:
             raise IndexError("ERROR: The queue is full.")
@@ -35,19 +35,24 @@ class CircularQueue:
     
     def __str__(self):
         if self.count == 0:
-            rep = []
+            return "-> || ->"
         else:
-            rep = [str(i) for i in self.items[self.front:self.back + 1]][::-1]
-        return f"-> |{', '.join(rep)}| ->"
-try:
-    q1 = CircularQueue(3)
-    q1.enqueue("A")
-    print(q1)
-    q1.enqueue("B")
-    print(q1)
-    q1.enqueue("C")
-    print(q1)
-    q1.enqueue("D")
-    print(q1)
-except IndexError as err:
-    print(err)
+            tmp = [str(self.items[(self.back - i) % self.capacity]) for i in range(self.count)]
+            return f"-> |{', '.join(tmp)}| ->"
+        
+q1 = CircularQueue(4)
+print(q1)
+q1.enqueue(1)
+print(q1)
+q1.enqueue(2)
+print(q1)
+q1.enqueue(3)
+print(q1)
+q1.enqueue(4)
+print(q1)
+q1.dequeue()
+print(q1)
+q1.enqueue(5)
+print(q1)
+print("Full?", q1.is_full())
+print("Empty?", q1.is_empty())
